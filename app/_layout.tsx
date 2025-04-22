@@ -7,10 +7,11 @@ export default function RootLayout() {
       SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
       RochesterRegular: require('../assets/fonts/Rochester-Regular.ttf'),
       CookieRegular: require('../assets/fonts/Cookie-Regular.ttf'),
+      HannahScript: require('../assets/fonts/Hannah-Script.ttf'),
     });
   return (
     <SafeAreaProvider style={{ backgroundColor: "#131415" }}>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, height: 30 }}>
         <Stack >
           <Stack.Screen
             name="index"
@@ -22,18 +23,18 @@ export default function RootLayout() {
               },
               headerTitleStyle: {
                 fontWeight: "900",
-                fontSize: 32,
-                fontFamily: "Rochester-Regular",
+                fontSize: 28,
+                fontFamily: "Cookie-Regular",
               },
             }}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="notification"
             options={{
               title: "Notification",
               headerShown: false,
             }}
-          />
+          /> */}
         </Stack>
       </SafeAreaView>
     </SafeAreaProvider>
