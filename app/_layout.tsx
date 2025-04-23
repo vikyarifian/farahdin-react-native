@@ -1,6 +1,18 @@
 import { Stack } from "expo-router";
 import { useFonts } from 'expo-font';
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { COLORS } from "@/assets/constatns/theme";
+import { ClerkLoaded, ClerkProvider } from '@clerk/clerk-expo'
+import { tokenCache } from "@/cache";
+import InitialLayout from "@/components/InitialLayout";
+
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+if (!publishableKey) {
+  throw new Error(
+    'Missing OAuth Key'
+  )
+}
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -8,35 +20,43 @@ export default function RootLayout() {
       RochesterRegular: require('../assets/fonts/Rochester-Regular.ttf'),
       CookieRegular: require('../assets/fonts/Cookie-Regular.ttf'),
       HannahScript: require('../assets/fonts/Hannah-Script.ttf'),
-    });
+  });
+
   return (
-    <SafeAreaProvider style={{ backgroundColor: "#131415" }}>
-      <SafeAreaView style={{ flex: 1, height: 30 }}>
-        <Stack >
-          <Stack.Screen
-            name="index"
-            options={{
-              title: "farahdin",
-              headerTintColor: '#f6ac00',
-              headerStyle: {
-                backgroundColor: "#131415",
-              },
-              headerTitleStyle: {
-                fontWeight: "900",
-                fontSize: 28,
-                fontFamily: "Cookie-Regular",
-              },
-            }}
-          />
-          {/* <Stack.Screen
-            name="notification"
-            options={{
-              title: "Notification",
-              headerShown: false,
-            }}
-          /> */}
-        </Stack>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
+      <ClerkLoaded>
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background}}>
+            {/* <Stack screenOptions={{ headerShown: false }}> */}
+            <InitialLayout></InitialLayout>
+              {/* <Stack.Screen
+                name="index"
+                options={{
+                  title: "farahdin",
+                  headerTintColor: COLORS.primary,
+                  headerStyle: {
+                    backgroundColor: COLORS.background,
+                  },
+                  headerTitleStyle: {
+                    fontWeight: "900",
+                    fontSize: 28,
+                    fontFamily: "Cookie-Regular",                
+                  },
+                  headerShadowVisible: false,
+                  headerShown: false, 
+                }}
+              />
+              <Stack.Screen
+                name="profile"
+                options={{
+                  title: "Profile",              
+                  headerShown: false,
+                }}
+              /> */}
+            {/* </Stack> */}
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </ClerkLoaded>
+    </ClerkProvider>
   );
 }

@@ -1,12 +1,27 @@
+import { COLORS } from "@/assets/constatns/theme";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 10,
     // justifyContent: "center",
     // alignItems: "flex-start",
     backgroundColor: "#131415",
+  },
+  appName: {
+    fontSize: 42,
+    fontFamily: 'Cookie-Regular',
+    fontWeight: "500",
+    color: COLORS.primary,
+    letterSpacing: 0.5,
+    marginBottom: 8,
+  },
+  tagline: {
+        fontSize: 16,
+        color: COLORS.grey,
+        letterSpacing: 1,
+        textTransform: "lowercase"
   },
   header1: {
     flex: 1,
@@ -17,8 +32,8 @@ export const styles = StyleSheet.create({
     backgroundColor: "#131415",
   },
   title: {
-    padding: 0,
-    fontSize: 20,
+    padding: 5,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#fff",
     alignItems: "flex-start",
@@ -31,10 +46,10 @@ export const styles = StyleSheet.create({
         backgroundColor: '#f6ac00',
         padding: 2,
         borderRadius: 10,
-        borderBlockColor: '#000',
+        borderBlockColor: '#f6ac00',
         borderWidth: 0.2,
         borderStyle: 'solid',
-        borderColor: '#000',
+        borderColor: '#f6ac00',
         color: '#f6ac00',
     },
     buttonText: {
