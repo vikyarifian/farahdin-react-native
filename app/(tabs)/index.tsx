@@ -1,16 +1,16 @@
 import { Text, View, TouchableOpacity, Button, ImageBackground } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "../../styles/style";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { Link } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
 
 export default function index() {
+  const {user}= useUser()
   return (
     <View
       style={styles.container}
     >
-      <Text style={[styles.title, {margin:0}]}>Hello, ...</Text>
+      <Text style={[styles.title, {margin:0}]}>Hello, {user?.fullName || 'Guest'}</Text>
       {/* <Link style={{ color: 'white' }} href={"/profile"}>Profile</Link> */}
       <View
         style={{ flex: 1, padding: 5, width: '100%', minHeight: 400, maxHeight: '100%' }}
