@@ -50,7 +50,7 @@ export const authStyles = StyleSheet.create({
         borderRadius: 14,
         marginBottom: 15,
         width: '100%',
-        maxWidth: 230,
+        maxWidth: 250,
         height: 50,
         shadowColor: '#000',
         shadowOffset: {
