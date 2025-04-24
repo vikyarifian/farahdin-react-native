@@ -1,13 +1,136 @@
 import { COLORS } from "@/assets/constatns/theme";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    // justifyContent: "center",
-    // alignItems: "flex-start",
-    backgroundColor: "#131415",
+    backgroundColor: COLORS.background,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // paddingHorizontal: 16,
+    // paddingVertical: 12,
+    borderBottomWidth: 0.5,
+    borderBottomColor: COLORS.surface,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: COLORS.white,
+    minHeight: 30,
+  },
+  contentDisabled: {
+    opacity: 0.7,
+  },
+  shareButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    minWidth: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shareButtonDisabled: {
+    opacity: 0.5,
+  },
+  shareText: {
+    color: COLORS.primary,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  shareTextDisabled: {
+    color: COLORS.grey,
+  },
+  emptyImageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 12,
+  },
+  emptyImageText: {
+    color: COLORS.grey,
+    fontSize: 16,
+  },
+  content: {
+    flex: 1,
+    paddingTop: 10,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingTop: 10,
+  },
+  backgroundImage: {
+    flex: 1,
+    width: '100%', 
+    height: '75%',
+    justifyContent: 'center',
+    alignItems: 'center', 
+    borderRadius: 5, 
+    opacity: 0.95,
+    resizeMode: 'cover',
+  },
+  gradient: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: '20%',
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  imageSection: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  previewImage: {
+    width: '100%',
+    height: '100%',
+  },
+  changeImageButton: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+    backgroundColor: 'rgb(0,0,0,0.75',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 8,
+    gap: 6,
+  },
+  changeImageText: {
+    color: COLORS.white,
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  inputSection: {
+    padding: 16,
+    flex: 1,
+  },
+  captionContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  userAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginRight: 12,
+  },
+  captionInput: {
+    flex: 1,
+    color: COLORS.white,
+    fontSize: 16,
+    paddingTop: 8,
+    minHeight: 40,
   },
   appName: {
     fontSize: 42,
@@ -73,11 +196,11 @@ export const styles = StyleSheet.create({
     listItemText: {
         fontSize: 16,
     },
-    header: {
-        fontSize: 20,
-        fontWeight: "bold",
-        marginBottom: 10,
-    },
+    // header: {
+    //     fontSize: 20,
+    //     fontWeight: "bold",
+    //     marginBottom: 10,
+    // },
 
     footer: {
         fontSize: 14,
@@ -169,11 +292,11 @@ export const styles = StyleSheet.create({
     tabBarActiveItemText: {
         fontWeight: "bold",
     },
-    headerTitle: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "#333",
-    },
+    // headerTitle: {
+    //     fontSize: 24,
+    //     fontWeight: "bold",
+    //     color: "#333",
+    // },
     headerSubtitle: {
         fontSize: 16,
         color: "#666",
