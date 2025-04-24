@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { styles } from '@/styles/style';
 import { authStyles } from '@/styles/auth.styles';
 import { COLORS } from '@/assets/constatns/theme';
@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSSO } from '@clerk/clerk-expo';
 import { router } from 'expo-router';
 import * as Svg from 'react-native-svg';
+import { getItem } from "../../utils/AsyncStorage";
 
 export default function login() {
   const {startSSOFlow} = useSSO()
@@ -22,13 +23,26 @@ export default function login() {
     }
   }
 
+  const [lang, setLang] = useState<string | null>(null);
+  
+    React.useEffect(() => {
+      const fetchLang = async () => {
+        const storedLang = await getItem('lang');
+        setLang(storedLang);
+        if (!storedLang) {
+          setLang('EN'); // Default to 'EN' if no language is stored
+        }
+      };
+      fetchLang();
+    }, [getItem('lang')]);
+
   return (
     <View style={styles.container}>
       <View style={authStyles.brandSection}>
         <View style={authStyles.logoContrainer}>
             <Image source={require("../../assets/images/logo2.png")} style={{ width:180, height:180 }}></Image>
         </View>
-        <Text style={styles.appName}>farahdin</Text>
+        <Text style={[styles.appName, {fontFamily: 'Javassoul', paddingTop: 15, letterSpacing: 2,}]}>Farahdin</Text>
       </View>
       <View style={authStyles.loginSection}>
         <TouchableOpacity
@@ -46,9 +60,11 @@ export default function login() {
                   <Svg.Path fill="none" d="M0 0h48v48H0z" />
               </Svg.Svg>
             </View>
-            <Text style={authStyles.googleButtonText}>Continue with Google</Text>
+            <Text style={authStyles.googleButtonText}>
+              {lang === 'ID' ? 'Lanjut pakai Google' : 'Continue with Google'}
+            </Text>
         </TouchableOpacity>        
-        <Text style={authStyles.termsText}>By continuing, you agree to our Terms and Privacy Policy</Text>
+        <Text style={authStyles.termsText}>{lang === 'ID' ? 'Dengan lanjut, kamu setuju dengan Syarat dan Kebijakan Privasi kami':'By continuing, you agree to our Terms and Privacy Policy'}</Text>
       </View>
     </View>
   );

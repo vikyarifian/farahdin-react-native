@@ -19,7 +19,8 @@ export default defineSchema({
     inboxes: defineTable({
         userId: v.id("users"),
         categoryId: v.id("categories"),
-        message: v.string(),
+        messageEn: v.string(),
+        messageId: v.string(),
         date: v.string(),
     }).index("by_inbox_date", ["date"])
 })

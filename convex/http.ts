@@ -49,7 +49,7 @@ http.route({
             const fullname = `${first_name || ""} ${last_name || ""}`.trim();
 
             try {
-                await ctx.runMutation(api.user.createUser, {
+                await ctx.runMutation(api.users.createUser, {
                     email,
                     fullname:fullname,
                     clerkId:id,
