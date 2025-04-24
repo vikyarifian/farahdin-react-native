@@ -26,7 +26,7 @@ export default function login() {
     <View style={styles.container}>
       <View style={authStyles.brandSection}>
         <View style={authStyles.logoContrainer}>
-            <Image source={require("../../assets/images/logo.png")} style={{ width:180, height:180 }}></Image>
+            <Image source={require("../../assets/images/logo2.png")} style={{ width:180, height:180 }}></Image>
         </View>
         <Text style={styles.appName}>farahdin</Text>
       </View>
