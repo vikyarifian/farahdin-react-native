@@ -6,7 +6,8 @@ export const createInbox = mutation({
     args:{
         userId: v.id("users"),
         categoryId: v.id("categories"),
-        message: v.string(),
+        messageEn: v.string(),
+        messageId: v.string(),
         date: v.string(),
     },
 
@@ -23,7 +24,8 @@ export const createInbox = mutation({
         const inboxId = await ctx.db.insert("inboxes", {
             userId: currentUser._id,
             categoryId: args.categoryId,
-            message: args.message,
+            messageEn: args.messageEn,
+            messageId: args.messageId,
             date: new Date().toLocaleDateString()
         })
 

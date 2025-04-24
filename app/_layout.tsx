@@ -7,9 +7,14 @@ import ClerkAndConvexProvider from "@/providers/ClerkAndConvexProvider"
 export default function RootLayout() {
   const [loaded] = useFonts({
       SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-      RochesterRegular: require('../assets/fonts/Rochester-Regular.ttf'),
-      CookieRegular: require('../assets/fonts/Cookie-Regular.ttf'),
-      HannahScript: require('../assets/fonts/Hannah-Script.ttf'),
+      // RochesterRegular: require('../assets/fonts/Rochester-Regular.ttf'),
+      // CookieRegular: require('../assets/fonts/Cookie-Regular.ttf'),
+      // HannahScript: require('../assets/fonts/Hannah-Script.ttf'),
+      // SamanthaUprightSWASH: require('../assets/fonts/SamanthaUprightSWASH.ttf'),
+      // Upakarti: require('../assets/fonts/upakarti.ttf'),
+      // CormorantUprightBold: require('../assets/fonts/Cormorant Upright Bold.ttf'),
+      Javassoul: require('../assets/fonts/Javassoul.ttf'),
+      // AksaraSastrajendra: require('../assets/fonts/Aksara Sastrajendra.ttf'),
   });
 
   return (
