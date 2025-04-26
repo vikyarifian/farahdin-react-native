@@ -63,16 +63,15 @@ export const styles = StyleSheet.create({
     paddingTop: 10,
   },
   scrollContent: {
-    flexGrow: 1,
+    // flexGrow: 1,
     paddingTop: 10,
   },
   backgroundImage: {
     flex: 1,
     width: '100%', 
-    height: '75%',
-    justifyContent: 'center',
+    height: '100%',
+    justifyContent: 'flex-end',
     alignItems: 'center', 
-    borderRadius: 5, 
     opacity: 0.95,
     resizeMode: 'cover',
   },
@@ -180,6 +179,13 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: "center",
     },
+    labelInput: {
+      color: COLORS.primary,
+      padding: 5,
+      fontSize: 18,
+      fontWeight: "bold",
+      alignItems: "flex-start",
+    },
     input: {
         height: 40,
         borderColor: "#ccc",
@@ -187,6 +193,8 @@ export const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
         marginBottom: 10,
+        color: COLORS.white,
+        fontSize: 18
     },
     listItem: {
         padding: 10,

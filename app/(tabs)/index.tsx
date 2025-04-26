@@ -1,5 +1,6 @@
 import { Button, Modal, Text, View, TouchableOpacity, ImageBackground, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { styles } from "../../styles/style";
+import { useRouter } from 'expo-router'
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useUser } from "@clerk/clerk-expo";
@@ -9,6 +10,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import * as Svg from 'react-native-svg';
 import { setItem, getItem } from "../../utils/AsyncStorage";
+import CustomModal from "@/components/Modal";
+import Primbon from "../pages/primbon";
 
 const langEn = () => {
   return (
@@ -53,9 +56,11 @@ const langId = () => {
 }
 export default function index() {
   const {user}= useUser();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalChatVisible, setModalChatVisible] = useState(false);
+  const [modalPrimbonVisible, setModalPrimbonVisible] = useState(false);
   const [lang, setLang] = useState<string | null>(null);
 
+  const router = useRouter();
   React.useEffect(() => {
     const fetchLang = async () => {
       const storedLang = await getItem('lang');
@@ -149,50 +154,87 @@ export default function index() {
           
         </TouchableOpacity>
       </View>
-      <ScrollView contentContainerStyle={styles.scrollContent}
+      <ScrollView contentContainerStyle={[styles.scrollContent, {flexGrow: 1}]}
         bounces={false}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps='handled'
         contentOffset={{ x: 0, y: 0 }} // Set initial scroll position to the top
       >  
-        <Text style={[styles.title, {margin:0}]}>{getGreetingTime()}, {(user?.fullName?.split(' ')[0] ?? 'Guest')}</Text>
+        <Text style={[styles.title, {fontSize: 24}]}>{getGreetingTime()}, {(user?.fullName?.split(' ')[0] ?? 'Guest')}</Text>
         {/* <Link style={{ color: 'white' }} href={"/profile"}>Profile</Link> */}
         <View
-          style={{ flex: 1, padding: 5, width: '100%', minHeight: 400, maxHeight: '100%' }}
+          style={{ flex: 1, padding: 5, width: '100%', minHeight: 250, maxHeight: '100%' }}
         >
           <ImageBackground
             style={styles.backgroundImage}
-            source={require('../../assets/images/farahdin-5.png')} // Path to your image              
+            source={require('../../assets/images/farahdin-8.jpg')} // Path to your image              
             resizeMode="cover" // or 'cover', 'stretch', 'contain', 'repeat', 'center'
+            borderRadius={8}
           >
-            <Text style={[styles.title, { fontSize: 19, textAlign: "center", fontWeight: '500', top: 20 }]}>{(lang === 'ID' ?'Ngobrol Langsung':'Live Chat')}</Text>
-            <Text style={[styles.title, { fontSize: 14, textAlign: "center", fontWeight: '200', top: 15 }]}>{(lang === 'ID' ?'Semua tentang masa depan Anda dan banyak lagi...':'Everything about your future and more...')}</Text>
-            <View style={[styles.button, { padding: 0, top: 30, width: '50%', height: 38, borderRadius: 10, alignSelf: "center" }]}>
-            <TouchableOpacity style={{ padding: 8 }} onPress={() => setModalVisible(true)}>
-              <Text style={{ color: 'black', alignSelf: 'center', fontSize: 18 }} >{(lang === 'ID' ?'Mulai Obrolan':'Start Chat')}</Text>
-              <Icon name={'angle-right'} size={22} style={{ top: -22, alignSelf: 'flex-end' }}></Icon>
+            <Text style={[styles.title, { fontSize: 19, textAlign: "center", fontWeight: '500' }]}>{(lang === 'ID' ?'Ngobrol Langsung':'Live Chat')}</Text>
+            <Text style={[styles.title, { fontSize: 14, textAlign: "center", fontWeight: '200', top: -10 }]}>{(lang === 'ID' ?'Semua tentang masa depan Anda dan banyak lagi...':'Everything about your future and more...')}</Text>
+            <View style={[styles.button, { padding: 0, width: '50%', height: 36, borderRadius: 10, alignSelf: "center" }]}>
+            <TouchableOpacity style={{ padding: 8, flexDirection: 'row', alignSelf: 'center' }} onPress={() => setModalChatVisible(true)}>
+              <View style={{ width: '40%' }} />
+              <Text style={{ width: '50%', color: 'black', alignSelf: 'center', fontSize: 18 }} >{(lang === 'ID' ?'Mulai Obrolan':'Start Chat')}</Text>
+              <Icon name={'angle-right'} size={20} style={{ width: '30%', paddingLeft: 20, alignSelf: 'flex-end' }}></Icon>
             </TouchableOpacity>            
             </View>
           </ImageBackground>          
         </View>
-        <View style={{ width: '95%', height: 400 }}>
-          <Modal
-            visible={modalVisible}
-            style={[styles.container, {backgroundColor: COLORS.background}]}
-            animationType="slide" // or 'fade', 'none'
-            // transparent={true} // optional, for a transparent background
-            onRequestClose={() => setModalVisible(false)} // handle back button on Android
-          >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-              <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
-                <Text>This is the modal content!</Text>
-                <Button title="Close Modal" onPress={() => setModalVisible(false)} />
-              </View>
-            </View>
-          </Modal>
+        <View style={{ minHeight: 160, flexDirection: 'row', top: 10, alignItems: 'center' }}>
+          <TouchableOpacity onPress={() => setModalPrimbonVisible(true)} style={{ minHeight: 160, margin: 10, flex: 1 }}>
+            <ImageBackground
+              style={[styles.backgroundImage, { maxHeight: 150 }]}
+              source={require('../../assets/images/primbon-card.jpg')} // Path to your image              
+              resizeMode="cover" // or 'cover', 'stretch', 'contain', 'repeat', 'center'
+              borderRadius={10}
+              >
+              <Text style={[styles.title, { margin: 5, fontSize: 18, alignSelf: 'flex-start', fontWeight: '600' }]}>Primbon</Text>
+            </ImageBackground>  
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setModalPrimbonVisible(true)} style={{ minHeight: 160, margin: 10, flex: 1 }}>
+            <ImageBackground
+              style={[styles.backgroundImage, { maxHeight: 150 }]}
+              source={require('../../assets/images/horoscope-card.jpg')} // Path to your image              
+              resizeMode="cover" // or 'cover', 'stretch', 'contain', 'repeat', 'center'
+              borderRadius={10}
+              >
+              <Text style={[styles.title, { margin: 5, fontSize: 18, alignSelf: 'flex-start', fontWeight: '600' }]}>{(lang === 'ID' ?'Horoskop':'Horoscope')}</Text>  
+            </ImageBackground>  
+          </TouchableOpacity>
+        </View>
+        <View style={{ minHeight: 160, flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity onPress={() => setModalPrimbonVisible(true)} style={{ minHeight: 160, margin: 10, flex: 1 }}>
+            <ImageBackground
+              style={[styles.backgroundImage, { maxHeight: 150 }]}
+              source={require('../../assets/images/tarot-card.jpg')} // Path to your image              
+              resizeMode="cover" // or 'cover', 'stretch', 'contain', 'repeat', 'center'
+              borderRadius={10}
+              >
+              <Text style={[styles.title, { margin: 5, fontSize: 18, alignSelf: 'flex-start', fontWeight: '600' }]}>Tarot</Text>
+            </ImageBackground>  
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setModalPrimbonVisible(true)} style={{ minHeight: 160, margin: 10, flex: 1 }}>
+            <ImageBackground
+              style={[styles.backgroundImage, { maxHeight: 150 }]}
+              source={require('../../assets/images/clair-card.jpg')} // Path to your image              
+              resizeMode="cover" // or 'cover', 'stretch', 'contain', 'repeat', 'center'
+              borderRadius={10}
+              >
+              <Text style={[styles.title, { margin: 5, fontSize: 18, alignSelf: 'flex-start', fontWeight: '600' }]}>{(lang === 'ID' ?'Kewaskitaan':'Clairvoyance')}</Text>  
+            </ImageBackground>  
+          </TouchableOpacity>
         </View>
       </ScrollView>
+      <CustomModal visible={modalChatVisible} onRequestClose={() => setModalChatVisible(false)} title={lang === 'ID' ? 'Obrolan':'Chat'}>
+        <Text style={[styles.title, {color: COLORS.primary, fontSize: 32}]}>{lang === 'ID' ? 'Segera Hadir!':'Coming Soon!'}</Text>
+        <Button title="close" onPress={() => setModalChatVisible(false)} />
+      </CustomModal>
+      <CustomModal visible={modalPrimbonVisible} onRequestClose={() => setModalPrimbonVisible(false)} title={'Primbon'}>
+        <Primbon/>
+      </CustomModal>
     </View>
   );
 }

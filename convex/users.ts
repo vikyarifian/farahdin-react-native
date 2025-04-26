@@ -17,11 +17,11 @@ export const createUser = mutation({
 
         if (existingUser) return
 
-        // const existingEmail = await ctx.db.query("users")
-        //     .withIndex("by_email", (q) => q.eq("email", args.email))
-        //     .first()
+        const existingEmail = await ctx.db.query("users")
+            .withIndex("by_email", (q) => q.eq("email", args.email))
+            .first()
 
-        // if (existingEmail) return
+        if (existingEmail) return
 
         await ctx.db.insert("users", {
             username: args.username,
