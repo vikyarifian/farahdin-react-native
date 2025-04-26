@@ -6,9 +6,12 @@ import { styles } from '@/styles/style';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '@/assets/constatns/theme';
 import { getItem } from "../../utils/AsyncStorage";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export default function inbox() {
-
+  
+  const messages = useQuery(api.inboxes.getInboxes)
   const router = useRouter();
   const { user } = useUser();
   const [lang, setLang] = useState<string | null>(null);
@@ -47,7 +50,10 @@ export default function inbox() {
             <Text>This View is aligned to the top</Text>
           </View>
           <View style={styles2.bottomView}>
-            <Text>Other content</Text>
+            {messages?.map((a, i) => (
+              <Text key={i}>{a.messageID}</Text>
+            ))}
+            {/* <Text>Other content</Text> */}
           </View>
         </View>
           </View>

@@ -1,5 +1,13 @@
 import { v } from "convex/values"
-import { mutation } from "./_generated/server"
+import { mutation, query } from "./_generated/server"
+import { getAuthUser } from "@/utils/User";
+
+export const getUser = query({
+    handler: async (ctx) => {
+        const currentUser = await getAuthUser(ctx);
+        return currentUser
+    }
+})
 
 export const createUser = mutation({
     args:{
@@ -21,7 +29,14 @@ export const createUser = mutation({
             .withIndex("by_email", (q) => q.eq("email", args.email))
             .first()
 
-        if (existingEmail) return
+        if (existingEmail) {
+            await ctx.db.patch(existingEmail._id, {
+                username: args.username,
+                fullname: args.fullname,
+                clerkId: args.clerkId
+            })
+            return
+        }
 
         await ctx.db.insert("users", {
             username: args.username,

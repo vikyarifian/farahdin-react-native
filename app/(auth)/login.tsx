@@ -40,7 +40,7 @@ export default function login() {
     <View style={styles.container}>
       <View style={authStyles.brandSection}>
         <View style={authStyles.logoContrainer}>
-            <Image source={require("../../assets/images/farahdin-card-logo.png")} style={{ width:220, height:220 }}></Image>
+            <Image source={require("../../assets/images/logo-farah-1.png")} style={{ width:260, height:260 }}></Image>
         </View>
         {/* <Text style={[styles.appName, {fontFamily: 'Javassoul', paddingTop: 15, letterSpacing: 2,}]}>Farahdin</Text> */}
       </View>

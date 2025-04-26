@@ -1,96 +1,98 @@
-import { View, Text,TextInput } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { styles } from '@/styles/style'
 import { COLORS } from '@/assets/constatns/theme';
-import { SelectList } from 'react-native-dropdown-select-list';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-picker/picker';
+import { Ionicons } from '@expo/vector-icons';
 
-const primbonOption = [
-    {key:1, value:"Arti nama"}, 
-    {key:2, value:"Tafsir Mimpi"},
-    {key:3, value:"Jodoh"},
-    {key:4, value:"Tanggal Jadi"},
-    {key:5, value:"Ramalan Jodoh"},
-    {key:6, value:"Rejeki Weton"},
-    {key:7, value:"Kecocokan Nama"},
-    {key:8, value:"Hari Baik"},
-    {key:9, value:"Hari Larangan"}
-]
-export default function primbon() {
-  const [selectedValue, setSelectedValue] = useState('');
-  const [date, setDate] = useState(new Date());
-  const [showPicker, setShowPicker] = useState(true);
-      const [text, setText] = useState('');
+const topics = [
+    { key: 1, topicID: "Arti nama", topicEN: "Name Meaning", icon: "finger-print" },
+    { key: 2, topicID: "Tafsir Mimpi", topicEN: "Dream Interpretation", icon: "bed-outline" },
+    { key: 3, topicID: "Jodoh", topicEN: "Match", icon: "heart-outline" },
+    { key: 4, topicID: "Tanggal Jadi", topicEN: "Important Date", icon: "calendar-number-outline" },
+    { key: 5, topicID: "Ramalan Jodoh", topicEN: "Soulmate Prediction", icon: "male-female-outline" },
+    { key: 6, topicID: "Rejeki Weton", topicEN: "Weton Fortune", icon: "dice-outline" },
+    { key: 7, topicID: "Kecocokan Nama", topicEN: "Name Compatibility", icon: "body-outline" },
+    { key: 8, topicID: "Hari Baik", topicEN: "Good Day", icon: "sunny-outline" },
+    { key: 9, topicID: "Hari Larangan", topicEN: "Prohibited Day", icon: "thunderstorm-outline" }
+];
 
-      const onChange = (event: any, selectedDate: Date | undefined) => {
-        const currentDate = selectedDate || date;
-        // setShowPicker(false);
-        setDate(currentDate);
-        setText(currentDate.toLocaleDateString()); //Format date as needed
-      };
+export default function primbon(props:any) {
+    const [topic, setTopic] = useState(0);
+    const [viewTopic, setViewTipic] = useState(true);
+    const [date, setDate] = useState(new Date());
+    const [showPicker, setShowPicker] = useState(true);
+    const [text, setText] = useState('');
+    const [data, setData] = useState({
+        name: props.user?.fullname || '',
+        birthday: props.user?.birthday || new Date(),
+        birthplace: props.user?.birthplace || '',
+    })
 
-      const showDatepicker = () => {
-        setShowPicker(true);
-      };
+    const onChange = (event: any, selectedDate: Date | undefined) => {
+    const currentDate = selectedDate || date;
+    // setShowPicker(false);
+    setDate(currentDate);
+    setText(currentDate.toLocaleDateString()); //Format date as needed
+    };
+
   return (
     <View style={[styles.container, { }]}>
-        <View style={styles.inputSection}>
-            {/* <SelectList 
-                data={primbonOption}
-                setSelected={setSelectedValue}
-                onSelect={() => console.log(selectedValue)}
-                boxStyles={{borderRadius: 5, backgroundColor: COLORS.white}}
-                dropdownStyles={{borderRadius: 5, backgroundColor: COLORS.white}}
-            />
-            <Text style={[styles.title, {  }]}>Selected: {selectedValue}</Text> */}
-            {/* <Text style={[styles.title, {  }]}>Select:</Text>
-            <Picker style={[styles.input, {}]}
-                selectedValue={selectedValue}
-                onValueChange={(item, index) =>
-                    setSelectedValue(item)
+        {viewTopic?
+            <>
+            <Text style={styles.title}>{props.lang === 'ID' ? 'Pilih Topik':'Choose Topic'} : </Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 8, justifyContent: 'center', }}>
+                {topics?.map((a, i) => (
+                    <TouchableOpacity 
+                        onPress={()=>{setTopic(a.key);setViewTipic(false)}}
+                        style={[styles.contentCard, { justifyContent: 'flex-start', alignItems: 'center', padding: 8 }]} key={i}>
+                        <Text key={i} style={{ fontFamily: 'Ionicons', top: 14 }}>
+                            <Ionicons name={a.icon as keyof typeof Ionicons.glyphMap} size={34} color={COLORS.primary} />
+                        </Text>
+                        <Text style={{ color: COLORS.white, textAlign: 'center', top: 18, fontSize: 12 }}>{(props?.lang === 'ID' ? a.topicID : a.topicEN)}</Text>
+                    </TouchableOpacity>
+                ))}
+            </View>
+            </>
+        :
+            <View style={styles.inputSection}>
+                <View style={{ alignItems: 'center' }}>
+                    <Text style={styles.title}>{topics.filter(a => a.key === topic)[0]?.[(props.lang==='ID'?'topicID':'topicEN')] || ''}</Text>
+                </View>
+                {[1,2].includes(topic)?
+                    <><Text style={[styles.labelInput, {  }]}>Name :</Text>
+                    <TextInput 
+                        placeholder='Input Name'
+                        placeholderTextColor={COLORS.grey}
+                        style={[styles.input, {width: 250}]} 
+                        value={data.name}
+                    /></>:null
                 }
-            >
-                {primbonOption.map((item, index) => (
-                    <Picker.Item key={index} style={[styles.input, {color:COLORS.white}]} label={item.value} value={item.key.toString()} />
-                ))}
-            </Picker> */}
-            {/* <View style={{ marginTop: 10 }}>
-                {["Arti Nama", "Tafsir Mimpi", "Jodoh", "Tanggal Jadi", "Ramalan Jodoh", "Rejeki Weton", "Kecocokan Nama", "Hari Baik", "Hari Larangan"].map((item, index) => (
-                <Text key={index} style={{ padding: 5, textAlign: 'left' }}>
-                    {item}
-                </Text>
-                ))}
-            </View> */}
-            <Text style={[styles.labelInput, {  }]}>Name :</Text>
-            <TextInput 
-                placeholder='Input Name'
-                placeholderTextColor={COLORS.grey}
-                style={[styles.input, {width: 250}]} 
-            />
-            <Text style={[styles.labelInput, {  }]}>Birthdate :</Text>
-            {showPicker && (
-                <DateTimePicker
-                    style={[styles.input, {borderWidth: 0, padding: 0, marginLeft: -10 }]}
-                    aria-labelledby='white'
-                    aria-label='white'
-                    textColor={COLORS.white}
-                    testID="dateTimePicker"
-                    value={date}
-                    mode="date"
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChange}
-                    accentColor={COLORS.primary}
+                <Text style={[styles.labelInput, {  }]}>Birthdate :</Text>
+                {showPicker && (
+                    <DateTimePicker
+                        style={[styles.input, {borderWidth: 0, padding: 0, marginLeft: -10 }]}
+                        aria-labelledby='white'
+                        aria-label='white'
+                        textColor={COLORS.white}
+                        testID="dateTimePicker"
+                        value={data.birthday}
+                        mode="date"
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChange}
+                        accentColor={COLORS.primary}
+                    />
+                )}
+                <Text style={[styles.labelInput, {  }]}>Birthplace :</Text>
+                <TextInput 
+                    placeholder='Input Birthplace'
+                    placeholderTextColor={COLORS.grey}
+                    style={[styles.input, {width: 250}]} 
+                    value={data.birthplace}
                 />
-            )}
-            <Text style={[styles.labelInput, {  }]}>Birthplace :</Text>
-            <TextInput 
-                placeholder='Input Birthplace'
-                placeholderTextColor={COLORS.grey}
-                style={[styles.input, {width: 250}]} 
-            />
-        </View>
+            </View>
+        }
     </View>
   )
 }
