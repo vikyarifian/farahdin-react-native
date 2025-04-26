@@ -10,18 +10,13 @@ export const authStyles = StyleSheet.create({
     },
     brandSection: {
         alignItems: 'center',
-        marginTop: height * 0.30,
-        marginBottom: 80
+        marginTop: height * 0.22,
+        marginBottom: height * 0.20
     },
     logoContrainer: {
-        width: 60,
-        height: 60,
-        borderRadius: 18,
-        padding: 12,
         backgroundColor: COLORS.background,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 25,
     },
     illustrationContainer: {
         flex: 1,
