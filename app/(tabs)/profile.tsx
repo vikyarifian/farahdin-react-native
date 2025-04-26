@@ -8,11 +8,14 @@ import { EvilIcons, Ionicons } from '@expo/vector-icons'
 import { COLORS } from '@/assets/constatns/theme'
 import { Image } from 'expo-image';
 import { getItem } from "../../utils/AsyncStorage";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export default function profile() {
 
   const router = useRouter();
   const { signOut } = useClerk()
+  const currentUser = useQuery(api.users.getUser)
   const {user}= useUser()
   const [lang, setLang] = useState<string | null>(null);
     
@@ -65,7 +68,7 @@ export default function profile() {
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
               {/* <EvilIcons size={28} color={COLORS.primary} name='user' /> */}
               {/* <View style={{ width: 28 }} /> */}
-              <Text style={{ fontSize:18, minHeight: 38, color: COLORS.white, alignSelf: 'center' }}>{user?.fullName || 'Guest'}</Text>
+              <Text style={{ fontSize:18, minHeight: 38, color: COLORS.white, alignSelf: 'center' }}>{currentUser?.fullname || 'Guest'}</Text>
               {/* <View style={{ width: 28 }} /> */}
             </View>
             {/* <Text style={{ margin:10 }}></Text>

@@ -11,7 +11,7 @@ export const authStyles = StyleSheet.create({
     brandSection: {
         alignItems: 'center',
         marginTop: height * 0.22,
-        marginBottom: height * 0.20
+        marginBottom: height * 0.10
     },
     logoContrainer: {
         backgroundColor: COLORS.background,

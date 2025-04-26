@@ -12,6 +12,18 @@ export const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
+  contentCard: {
+    margin: 5, width: 100, height: 100,
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignItems: 'center', 
+    alignSelf: 'center',
+    alignContent: 'center',
+    borderColor: COLORS.grey,
+    borderWidth: 1,
+    borderRadius: 15,
+    opacity: 0.95,
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',

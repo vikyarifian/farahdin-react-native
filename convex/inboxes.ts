@@ -1,6 +1,16 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
+import { getAuthUser } from "@/utils/User";
 
+export const getInboxes = query({
+    handler: async (ctx) => {
+        const currentUser = await getAuthUser(ctx);
+
+        const inboxes = await ctx.db.query("inboxes").withIndex("by_user_id", (q) => q.eq("userId", currentUser._id)).order("desc").collect();
+        
+        return inboxes;
+    }
+})
 
 export const createInbox = mutation({
     args:{
@@ -12,26 +22,16 @@ export const createInbox = mutation({
     },
 
     handler: async(ctx, args) => {
-        const identity = await ctx.auth.getUserIdentity();
-        if (!identity) throw new Error("Unauthorized")
-        
-        const currentUser = await ctx.db.query("users")
-            .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
-            .first()
 
-        if (!currentUser) throw new Error("User not found")
+        const currentUser = await getAuthUser(ctx)
 
         const inboxId = await ctx.db.insert("inboxes", {
             userId: currentUser._id,
             categoryId: args.categoryId,
-            messageEn: args.messageEn,
-            messageId: args.messageId,
+            messageEN: args.messageEn,
+            messageID: args.messageId,
             date: new Date().toLocaleDateString()
         })
-
-        // await ctx.db.patch(currentUser._id,
-        //     inboxes: currentUser.
-        // )
 
         return inboxId
     }
