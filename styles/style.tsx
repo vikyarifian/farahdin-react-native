@@ -176,16 +176,9 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: "#666",
   },
-    button: {
-        backgroundColor: '#f6ac00',
-        padding: 2,
-        borderRadius: 10,
-        borderBlockColor: '#f6ac00',
-        borderWidth: 0.2,
-        borderStyle: 'solid',
-        borderColor: '#f6ac00',
-        color: '#f6ac00',
-    },
+  button: {
+    padding: 8, top: 10, flexDirection: 'row', alignSelf: 'flex-start', backgroundColor: COLORS.primary, borderRadius: 5
+  },
     buttonText: {
         color: "#fff",
         fontSize: 16,
