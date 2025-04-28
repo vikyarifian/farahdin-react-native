@@ -27,7 +27,7 @@ const CustomModal: React.FC<ModalProps> = ({
     <Modal
         visible={visible}
         style={[styles.container,{justifyContent: 'flex-start',}]}
-        animationType="slide" // or 'fade', 'none'
+        animationType="none" // or 'fade', 'none'
         transparent={true} // optional, for a transparent background
         onRequestClose={onRequestClose} // handle back button on Android
     >
