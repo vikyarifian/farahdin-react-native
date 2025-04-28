@@ -178,8 +178,8 @@ export default function index() {
             <Text style={[styles.title, { fontSize: 14, textAlign: "center", fontWeight: '200', top: -10 }]}>{(lang === 'ID' ?'Semua tentang masa depan Anda dan banyak lagi...':'Everything about your future and more...')}</Text>
             <View style={[styles.button, { padding: 0, width: '50%', height: 36, borderRadius: 10, alignSelf: "center" }]}>
             <TouchableOpacity style={{ padding: 8, flexDirection: 'row', alignSelf: 'center' }} onPress={() => setModalChatVisible(true)}>
-              <View style={{ width: 32 }} />
-              <Text style={{ width: (lang === 'ID'?'70%':'58%'), color: 'black', alignSelf: 'center', fontSize: 18 }} >{(lang === 'ID' ?'Mulai Obrolan':'Start Chat')}</Text>
+              <View style={{ width: (lang === 'ID'?32:34) }} />
+              <Text style={{ width: (lang === 'ID'?'65%':'65%'), color: 'black', alignSelf: 'center', fontSize: 18 }} >{(lang === 'ID' ?'Mulai Obrolan':'Start Chat')}</Text>
               <Icon name={'angle-right'} size={20} style={{ width: 32, paddingLeft: 10, alignSelf: 'flex-end' }}></Icon>
             </TouchableOpacity>            
             </View>

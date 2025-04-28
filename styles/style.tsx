@@ -173,8 +173,10 @@ export const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   subtitle: {
-    fontSize: 16,
-    color: "#666",
+    padding: 5,
+    fontSize: 14,
+    color: "#fff",
+    alignItems: "flex-start",
   },
   button: {
     padding: 8, top: 10, flexDirection: 'row', alignSelf: 'flex-start', backgroundColor: COLORS.primary, borderRadius: 5
@@ -333,6 +335,21 @@ export const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 16,
         textAlign: "center",
+    },
+    resultContainer: {
+      flex: 1, 
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
+      flexDirection: 'column',
+      backgroundColor: COLORS.background,
+      padding: 15, 
+      color: COLORS.grey,
+    },
+    resultText: {
+      justifyContent: 'center',
+      color: COLORS.grey,
+      fontSize: 16,
+      marginTop: 10,
     },
     footerText: {
         fontSize: 14,
