@@ -33,7 +33,7 @@ const Result: React.FC<ModalProps> = ({
         transparent={true} // optional, for a transparent background
         onRequestClose={onRequestClose} // handle back button on Android
     >
-        <View style={[styles.contentContainer, {paddingTop: 40, borderRadius: 10}]}>
+        <View style={[styles.contentContainer, {paddingTop: 40, paddingBottom:30, borderRadius: 10}]}>
             <View style={[styles.header, { backgroundColor: COLORS.background }]}>
             <TouchableOpacity onPress={onRequestClose}>
                 <Text style={[styles.subtitle, { fontSize: 16, height: 40, top: 5, fontWeight: 400, color: COLORS.primary }]}>Done</Text>
