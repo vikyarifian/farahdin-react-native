@@ -12,6 +12,7 @@ import * as Svg from 'react-native-svg';
 import { setItem, getItem } from "../../utils/AsyncStorage";
 import CustomModal from "@/components/Modal";
 import Primbon from "../pages/primbon";
+import Horoscope from "../pages/horoscope";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
@@ -61,6 +62,7 @@ export default function index() {
   // const {user}= useUser();
   const [modalChatVisible, setModalChatVisible] = useState(false);
   const [modalPrimbonVisible, setModalPrimbonVisible] = useState(false);
+  const [modalHoroscopeVisible, setModalHoroscopeVisible] = useState(false);
   const [lang, setLang] = useState<string | null>(null);
 
   const router = useRouter();
@@ -196,7 +198,7 @@ export default function index() {
               <Text style={[styles.title, { margin: 5, fontSize: 18, alignSelf: 'flex-start', fontWeight: '600' }]}>Primbon</Text>
             </ImageBackground>  
           </TouchableOpacity>
-          <TouchableOpacity style={{ minHeight: 160, margin: 10 }}>
+          <TouchableOpacity onPress={() => setModalHoroscopeVisible(true)} style={{ minHeight: 160, margin: 10 }}>
             <ImageBackground
               style={[styles.backgroundImage, { width: 160, maxHeight: 150 }]}
               source={require('../../assets/images/horoscope-card.jpg')} // Path to your image              
@@ -254,6 +256,9 @@ export default function index() {
       </CustomModal>
       <CustomModal visible={modalPrimbonVisible} onRequestClose={() => setModalPrimbonVisible(false)} title={'Primbon'}>
         <Primbon lang={lang} user={currentUser} />
+      </CustomModal>
+      <CustomModal visible={modalHoroscopeVisible} onRequestClose={() => setModalHoroscopeVisible(false)} title={lang === 'ID' ? 'Horoskop':'Horoscope'}>
+        <Horoscope lang={lang} user={currentUser} />
       </CustomModal>
     </View>
   );
