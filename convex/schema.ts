@@ -10,6 +10,7 @@ export default defineSchema({
         birthday: v.optional(v.string()),
         birthplace: v.optional(v.string()),
         gender: v.optional(v.string()),
+        zodiac: v.optional(v.string()),
         clerkId: v.string()
     }).index("by_clerk_id", ["clerkId"])
     .index("by_email", ["email"]),

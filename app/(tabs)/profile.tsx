@@ -65,10 +65,12 @@ export default function profile() {
               source={user?.imageUrl ? { uri: user.imageUrl } : require("../../assets/images/react-logo.png")}
               style={{ width: 100, height: 100, borderRadius: 100, alignSelf: 'center', borderBottomWidth: 30 }}
             />
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+            <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
               {/* <EvilIcons size={28} color={COLORS.primary} name='user' /> */}
               {/* <View style={{ width: 28 }} /> */}
               <Text style={{ fontSize:18, minHeight: 38, color: COLORS.white, alignSelf: 'center' }}>{currentUser?.fullname || 'Guest'}</Text>
+              
+              <Text style={{ fontSize:18, minHeight: 38, color: COLORS.white, alignSelf: 'center' }}>{currentUser?.zodiac || ''}</Text>
               {/* <View style={{ width: 28 }} /> */}
             </View>
             {/* <Text style={{ margin:10 }}></Text>

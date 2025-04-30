@@ -5,10 +5,12 @@ import { COLORS } from '@/assets/constatns/theme';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import * as cheerio from 'cheerio';
-import Icon from "react-native-vector-icons/FontAwesome";
 import Loader from '@/components/Loader';
 import Result from '@/components/Result';
 import { translate } from '@/utils/Translate';
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { zodiac } from '@/utils/Zodiac';
 
 const { width } = Dimensions.get("window");
 
@@ -36,7 +38,7 @@ export default function primbon(props:any) {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
         name: props.user?.fullname || '',
-        birthday: props.user?.birthday || new Date(),
+        birthday: (props.user?.birthday==='NaN-NaN-NaN'?new Date():new Date(props.user?.birthday) || new Date()),
         birthplace: props.user?.birthplace || '',
         dream: '',
         partner: '',
@@ -44,12 +46,33 @@ export default function primbon(props:any) {
     });
 
     const handleChange = (key: keyof typeof data, value: any) => {
+
         setData({
             ...data,
             [key]: value ? value : data[key]
         });
     }
+
+    const updateUser = useMutation(api.users.updateUser);
     
+    React.useEffect(() => {
+        const updateBirthday = async () => {
+            if (props.user.birthday === undefined  || props.user.birthday === 'NaN-NaN-NaN' || new Date(props.user?.birthday).toLocaleString().trim() !== data.birthday.toLocaleString().trim()) {
+                const formattedDate = `${data.birthday.getFullYear()}-${(data.birthday.getMonth() + 1).toString().padStart(2, '0')}-${data.birthday.getDate().toString().padStart(2, '0')}`;
+                await updateUser({
+                    username: props.user.username,
+                    birthday: (formattedDate==='NaN-NaN-NaN'?`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}-${new Date().getDate().toString().padStart(2, '0')}`:formattedDate),
+                    fullname: props.user.fullname || '',
+                    email: props.user.email || '',
+                    birthplace: props.user.birthplace || '',
+                    gender: props.user.gender || '',
+                    zodiac: zodiac(formattedDate)
+                });
+            }
+        };
+        updateBirthday();
+    }, [data.birthday]);
+
     const onChange = (key: string, selectedDate: Date | undefined) => {
         const currentDate = selectedDate || date;
         setData(({
@@ -329,7 +352,6 @@ export default function primbon(props:any) {
                     break;
             }
 
-            
             setTimeout(() => {
                 setViewResult(true);
                 setLoading(false);
@@ -340,130 +362,130 @@ export default function primbon(props:any) {
         }
     }
 
-  return (
-    <View style={[styles.container, { }]}>
-        {viewTopic?
-            <>
-            <Text style={styles.title}>{props.lang === 'ID' ? 'Pilih Topik':'Choose Topic'} : </Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 8, justifyContent: 'center', }}>
-                {topics?.map((a, i) => (
-                    <TouchableOpacity 
-                        onPress={()=>{setTopic(a.key);setViewTopic(false)}}
-                        style={[styles.contentCard, { justifyContent: 'flex-start', alignItems: 'center', padding: 8 }]} key={i}>
-                        <Text key={i} style={{ fontFamily: 'Ionicons', top: 14 }}>
-                            <Ionicons name={a.icon as keyof typeof Ionicons.glyphMap} size={34} color={COLORS.primary} />
-                        </Text>
-                        <Text style={{ color: COLORS.white, textAlign: 'center', top: 18, fontSize: 12 }}>{(props?.lang === 'ID' ? a.topicID : a.topicEN)}</Text>
-                    </TouchableOpacity>
-                ))}
-            </View>
-            </>
-        :
-            <View style={styles.inputSection}>
-                <View style={{ alignItems: 'center' }}>
-                    <Text style={styles.title}>{topics.filter(a => a.key === topic)[0]?.[(props.lang==='ID'?'topicID':'topicEN')] || ''}</Text>
-                </View>
-                {[1,3,5,7].includes(topic)?
-                    <><Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? 'Nama :':'Name :'}</Text>
-                    <TextInput 
-                        placeholder={props.lang === 'ID' ? 'Masukan Nama':'Input Name'}
-                        placeholderTextColor={COLORS.grey}
-                        style={[styles.input, {width: 250}]} 
-                        value={data.name}
-                        onChangeText={(value)=>handleChange('name',value)}
-                    /></>:null
-                }
-                {[2].includes(topic)?
-                    <><Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? 'Mimpi :':'Dream :'}</Text>
-                    <TextInput 
-                        placeholder={props.lang === 'ID' ? 'Masukan Mimpi':'Input Dream'}
-                        placeholderTextColor={COLORS.grey}
-                        style={[styles.input, {width: 250}]} 
-                        value={data.dream}
-                        onChangeText={(value)=>handleChange('dream',value)}
-                    /></>:null
-                }
-                {[5,6,7].includes(topic)?
-                    <>
-                    <Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? 'Tanggal Lahir :':'Birthdate :'}</Text>
-                    {showPicker && (
-                        <DateTimePicker
-                            style={[styles.input, {borderWidth: 0, padding: 0, marginLeft: -10 }]}
-                            aria-labelledby='white'
-                            aria-label='white'
-                            textColor={COLORS.white}
-                            testID="dateTimePicker"
-                            value={data.birthday}
-                            mode="date"
-                            is24Hour={true}
-                            display="default"
-                            onChange={(event, selectedDate) => onChange('birthday', selectedDate)}
-                            accentColor={COLORS.primary}
-                        />
-                    )}
-                    </>
-                :null}
-                {[3,5].includes(topic)?
-                    <><Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? 'Pasangan :':'Partner :'}</Text>
-                    <TextInput 
-                        placeholder={props.lang === 'ID' ? 'Masukan Nama Pasangan':'Input Partner Name'}
-                        placeholderTextColor={COLORS.grey}
-                        style={[styles.input, {width: 250}]} 
-                        value={data.partner}
-                        onChangeText={(value)=>handleChange('partner',value)}
-                    /></>:null
-                }
-                {[4,5,8,9].includes(topic)?
-                    <>
-                    <Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? ([4,8,9].includes(topic)?'Tanggal :':'Tanggal Lahir Pasangan'):([4,8,9].includes(topic)?'Date :':'Partner Birthdate')}</Text>
-                    {showPicker && (
-                        <DateTimePicker
-                            style={[styles.input, {borderWidth: 0, padding: 0, marginLeft: -10 }]}
-                            aria-labelledby='white'
-                            aria-label='white'
-                            textColor={COLORS.white}
-                            testID="dateTimePicker"
-                            value={data.date}
-                            mode="date"
-                            is24Hour={true}
-                            display="default"
-                            onChange={(event, selectedDate) => onChange('date', selectedDate)}
-                            accentColor={COLORS.primary}
-                        />
-                    )}
-                    </>
-                    :null
-                }
-                {/* <Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? 'Tempat Lahir :':'Birthplace :'}</Text>
-                <TextInput 
-                    placeholder='Input Birthplace'
-                    placeholderTextColor={COLORS.grey}
-                    style={[styles.input, {width: 250}]} 
-                    value={data.birthplace}
-                /> */}
-                <TouchableOpacity disabled={loading} style={styles.button} onPress={() => generate()}>
-                    <View style={{ width: 90, height: 20, justifyContent: 'center'}}>
-                        {loading ? 
-                            <Loader size={'medium'} width={80} color={COLORS.white} style={{ width: 80, top: 5,height: 20, alignSelf: 'center' }} /> 
-                        : 
-                            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 18, fontWeight: 500}} >{(props.lang === 'ID' ?'Mulai':'Generate')}</Text>
-                        }
-                    </View>
-                </TouchableOpacity>
-                
-                <Result visible={viewResult} onRequestClose={() => setViewResult(false)} title={'Primbon'} 
-                    subTitle={topics.filter(a => a.key === topic)[0]?.[(props.lang==='ID'?'topicID':'topicEN')] || ''}>
-                    {result.map((a, i) => (
-                        <Text key={i} style={[styles.resultText, { textAlign: 'justify' }]}>{(a.trimStart().trimEnd()!=='.'?a.trimStart():'')}</Text>
+    return (
+        <View style={[styles.container, { }]}>
+            {viewTopic?
+                <>
+                <Text style={styles.title}>{props.lang === 'ID' ? 'Pilih Topik':'Choose Topic'} : </Text>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 8, justifyContent: 'center', }}>
+                    {topics?.map((a, i) => (
+                        <TouchableOpacity 
+                            onPress={()=>{setTopic(a.key);setViewTopic(false)}}
+                            style={[styles.contentCard, { justifyContent: 'flex-start', alignItems: 'center', padding: 8 }]} key={i}>
+                            <Text key={i} style={{ fontFamily: 'Ionicons', top: 14 }}>
+                                <Ionicons name={a.icon as keyof typeof Ionicons.glyphMap} size={34} color={COLORS.primary} />
+                            </Text>
+                            <Text style={{ color: COLORS.white, textAlign: 'center', top: 18, fontSize: 12 }}>{(props?.lang === 'ID' ? a.topicID : a.topicEN)}</Text>
+                        </TouchableOpacity>
                     ))}
-                    {[3,6].includes(topic) ?
-                        <View style={{padding:10,justifyContent:'flex-start'}}>
-                            <Image style={{width: width*0.9, height: 250, resizeMode: 'contain', backgroundColor:COLORS.background}} source={{uri:image}}></Image>
-                        </View>
+                </View>
+                </>
+            :
+                <View style={styles.inputSection}>
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={styles.title}>{topics.filter(a => a.key === topic)[0]?.[(props.lang==='ID'?'topicID':'topicEN')] || ''}</Text>
+                    </View>
+                    {[1,3,5,7].includes(topic)?
+                        <><Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? 'Nama :':'Name :'}</Text>
+                        <TextInput 
+                            placeholder={props.lang === 'ID' ? 'Masukan Nama':'Input Name'}
+                            placeholderTextColor={COLORS.grey}
+                            style={[styles.input, {width: 250}]} 
+                            value={data.name}
+                            onChangeText={(value)=>handleChange('name',value)}
+                        /></>:null
+                    }
+                    {[2].includes(topic)?
+                        <><Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? 'Mimpi :':'Dream :'}</Text>
+                        <TextInput 
+                            placeholder={props.lang === 'ID' ? 'Masukan Mimpi':'Input Dream'}
+                            placeholderTextColor={COLORS.grey}
+                            style={[styles.input, {width: 250}]} 
+                            value={data.dream}
+                            onChangeText={(value)=>handleChange('dream',value)}
+                        /></>:null
+                    }
+                    {[5,6,7].includes(topic)?
+                        <>
+                        <Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? 'Tanggal Lahir :':'Birthdate :'}</Text>
+                        {showPicker && (
+                            <DateTimePicker
+                                style={[styles.input, {borderWidth: 0, padding: 0, marginLeft: -10 }]}
+                                aria-labelledby='white'
+                                aria-label='white'
+                                textColor={COLORS.white}
+                                testID="dateTimePicker"
+                                value={data.birthday}
+                                mode="date"
+                                is24Hour={true}
+                                display="default"
+                                onChange={(event, selectedDate) => onChange('birthday', selectedDate)}
+                                accentColor={COLORS.primary}
+                            />
+                        )}
+                        </>
                     :null}
-                </Result>
-            </View>
-        }
-    </View>
-  )
+                    {[3,5].includes(topic)?
+                        <><Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? 'Pasangan :':'Partner :'}</Text>
+                        <TextInput 
+                            placeholder={props.lang === 'ID' ? 'Masukan Nama Pasangan':'Input Partner Name'}
+                            placeholderTextColor={COLORS.grey}
+                            style={[styles.input, {width: 250}]} 
+                            value={data.partner}
+                            onChangeText={(value)=>handleChange('partner',value)}
+                        /></>:null
+                    }
+                    {[4,5,8,9].includes(topic)?
+                        <>
+                        <Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? ([4,8,9].includes(topic)?'Tanggal :':'Tanggal Lahir Pasangan :'):([4,8,9].includes(topic)?'Date :':'Partner Birthdate :')}</Text>
+                        {showPicker && (
+                            <DateTimePicker
+                                style={[styles.input, {borderWidth: 0, padding: 0, marginLeft: -10 }]}
+                                aria-labelledby='white'
+                                aria-label='white'
+                                textColor={COLORS.white}
+                                testID="dateTimePicker"
+                                value={data.date}
+                                mode="date"
+                                is24Hour={true}
+                                display="default"
+                                onChange={(event, selectedDate) => onChange('date', selectedDate)}
+                                accentColor={COLORS.primary}
+                            />
+                        )}
+                        </>
+                        :null
+                    }
+                    {/* <Text style={[styles.labelInput, {  }]}>{props.lang === 'ID' ? 'Tempat Lahir :':'Birthplace :'}</Text>
+                    <TextInput 
+                        placeholder='Input Birthplace'
+                        placeholderTextColor={COLORS.grey}
+                        style={[styles.input, {width: 250}]} 
+                        value={data.birthplace}
+                    /> */}
+                    <TouchableOpacity disabled={loading} style={styles.button} onPress={() => generate()}>
+                        <View style={{ width: 90, height: 20, justifyContent: 'center'}}>
+                            {loading ? 
+                                <Loader size={'medium'} width={80} color={COLORS.white} style={{ width: 80, top: 5,height: 20, alignSelf: 'center' }} /> 
+                            : 
+                                <Text style={{ color: 'black', alignSelf: 'center', fontSize: 18, fontWeight: 500}} >{(props.lang === 'ID' ?'Mulai':'Generate')}</Text>
+                            }
+                        </View>
+                    </TouchableOpacity>
+                    
+                    <Result visible={viewResult} onRequestClose={() => setViewResult(false)} title={'Primbon'} 
+                        subTitle={topics.filter(a => a.key === topic)[0]?.[(props.lang==='ID'?'topicID':'topicEN')] || ''}>
+                        {result.map((a, i) => (
+                            <Text key={i} style={[styles.resultText, { textAlign: 'justify' }]}>{(a.trimStart().trimEnd()!=='.'?a.trimStart():'')}</Text>
+                        ))}
+                        {[3,6].includes(topic) ?
+                            <View style={{padding:10,justifyContent:'flex-start'}}>
+                                <Image style={{width: width*0.9, height: 250, resizeMode: 'contain', backgroundColor:COLORS.background}} source={{uri:image}}></Image>
+                            </View>
+                        :null}
+                    </Result>
+                </View>
+            }
+        </View>
+    )
 }
