@@ -15,6 +15,7 @@ import Primbon from "../pages/primbon";
 import Horoscope from "../pages/horoscope";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import Tarot from "../pages/tarot";
 
 const langEn = () => {
   return (
@@ -57,12 +58,14 @@ const langId = () => {
     </View>
   )
 }
+
 export default function index() {
   const currentUser = useQuery(api.users.getUser)
   // const {user}= useUser();
   const [modalChatVisible, setModalChatVisible] = useState(false);
   const [modalPrimbonVisible, setModalPrimbonVisible] = useState(false);
   const [modalHoroscopeVisible, setModalHoroscopeVisible] = useState(false);
+  const [modalTarotVisible, setModalTarotVisible] = useState(false);
   const [lang, setLang] = useState<string | null>(null);
 
   const router = useRouter();
@@ -208,7 +211,7 @@ export default function index() {
               <Text style={[styles.title, { margin: 5, fontSize: 18, alignSelf: 'flex-start', fontWeight: '600' }]}>{(lang === 'ID' ?'Horoskop':'Horoscope')}</Text>  
             </ImageBackground>  
           </TouchableOpacity>
-          <TouchableOpacity style={{ minHeight: 160, margin: 10 }}>
+          <TouchableOpacity onPress={() => setModalTarotVisible(true)} style={{ minHeight: 160, margin: 10 }}>
             <ImageBackground
               style={[styles.backgroundImage, { width: 160, maxHeight: 150 }]}
               source={require('../../assets/images/tarot-card.jpg')} // Path to your image              
@@ -259,6 +262,9 @@ export default function index() {
       </CustomModal>
       <CustomModal visible={modalHoroscopeVisible} onRequestClose={() => setModalHoroscopeVisible(false)} title={lang === 'ID' ? 'Horoskop':'Horoscope'}>
         <Horoscope lang={lang} user={currentUser} />
+      </CustomModal>
+      <CustomModal visible={modalTarotVisible} onRequestClose={() => setModalTarotVisible(false)} title={'Tarot'}>
+        <Tarot lang={lang} user={currentUser} />
       </CustomModal>
     </View>
   );
