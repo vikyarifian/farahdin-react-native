@@ -45,17 +45,17 @@ export default function inbox() {
           contentOffset={{ x: 0, y: 0 }}
         >
           <View style={styles.content}>
-          <View style={styles.container}>
-          <View style={styles2.topAlignedView}>
-            <Text>This View is aligned to the top</Text>
-          </View>
-          <View style={styles2.bottomView}>
-            {messages?.map((a, i) => (
-              <Text key={i}>{a.messageID}</Text>
-            ))}
-            {/* <Text>Other content</Text> */}
-          </View>
-        </View>
+              <View style={styles.container}>
+                {/* <View style={styles2.topAlignedView}>
+                  <Text>This View is aligned to the top</Text>
+                </View> */}
+                {/* <View style={styles2.bottomView}>
+                  {messages?.map((a, i) => (
+                    <Text key={i}>{a.messageID}</Text>
+                  ))}
+                  <Text>Other content</Text>
+                </View> */}
+            </View>
           </View>
         </ScrollView>
       </View>      
