@@ -2,15 +2,11 @@ import { View, Text, ImageBackground, TouchableOpacity, Image, Dimensions } from
 import React, { useState } from 'react'
 import { styles } from '@/styles/style'
 import { COLORS } from '@/assets/constatns/theme';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import * as cheerio from 'cheerio';
 import Loader from '@/components/Loader';
 import Result from '@/components/Result';
 import { translate } from '@/utils/Translate';
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { zodiac } from '@/utils/Zodiac';
 
 const { width } = Dimensions.get("window");
 
@@ -170,11 +166,11 @@ export default function tarot(props:any) {
                     {topics?.map((a, i) => (
                         <TouchableOpacity 
                             onPress={()=>{setTopic(a.key);setViewTopic(false);setShuffleCard(shuffle(a.numberCard))}}
-                            style={[styles.contentCard, { justifyContent: 'flex-start', alignItems: 'center', padding: 8 }]} key={i}>
-                            <Text key={i} style={{ fontFamily: 'Ionicons', top: 14 }}>
-                                <Ionicons name={a.icon as keyof typeof Ionicons.glyphMap} size={34} color={COLORS.primary} />
+                            style={[styles.contentCard, { justifyContent: 'flex-start', alignItems: 'center', padding: 8, width: 150, height: 150 }]} key={i}>
+                            <Text key={i} style={{ fontFamily: 'Ionicons', top: 25 }}>
+                                <Ionicons name={a.icon as keyof typeof Ionicons.glyphMap} size={50} color={COLORS.primary} />
                             </Text>
-                            <Text style={{ color: COLORS.white, textAlign: 'center', top: 18, fontSize: 12 }}>{(props?.lang === 'ID' ? a.topicID : a.topicEN)}</Text>
+                            <Text style={{ color: COLORS.white, textAlign: 'center', top: 35, fontSize: 18 }}>{(props?.lang === 'ID' ? a.topicID : a.topicEN)}</Text>
                         </TouchableOpacity>
                     ))}
                 </View>
