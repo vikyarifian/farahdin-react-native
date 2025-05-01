@@ -16,6 +16,7 @@ import Horoscope from "../pages/horoscope";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Tarot from "../pages/tarot";
+import Clairvoyance from "../pages/clairvoyance";
 
 const langEn = () => {
   return (
@@ -66,6 +67,7 @@ export default function index() {
   const [modalPrimbonVisible, setModalPrimbonVisible] = useState(false);
   const [modalHoroscopeVisible, setModalHoroscopeVisible] = useState(false);
   const [modalTarotVisible, setModalTarotVisible] = useState(false);
+  const [modalClairVisible, setModalClairVisible] = useState(false);
   const [lang, setLang] = useState<string | null>(null);
 
   const router = useRouter();
@@ -221,7 +223,7 @@ export default function index() {
               <Text style={[styles.title, { margin: 5, fontSize: 18, alignSelf: 'flex-start', fontWeight: '600' }]}>Tarot</Text>
             </ImageBackground>  
           </TouchableOpacity>
-          <TouchableOpacity style={{ minHeight: 160, margin: 10 }}>
+          <TouchableOpacity onPress={() => setModalClairVisible(true)} style={{ minHeight: 160, margin: 10 }}>
             <ImageBackground
               style={[styles.backgroundImage, { width: 160, maxHeight: 150 }]}
               source={require('../../assets/images/clair-card.jpg')} // Path to your image              
@@ -265,6 +267,9 @@ export default function index() {
       </CustomModal>
       <CustomModal visible={modalTarotVisible} onRequestClose={() => setModalTarotVisible(false)} title={'Tarot'}>
         <Tarot lang={lang} user={currentUser} />
+      </CustomModal>
+      <CustomModal visible={modalClairVisible} onRequestClose={() => setModalClairVisible(false)} title={lang === 'ID' ? 'Kewaskitaan':'Clairvoyance'}>
+        <Clairvoyance lang={lang} user={currentUser} />
       </CustomModal>
     </View>
   );
