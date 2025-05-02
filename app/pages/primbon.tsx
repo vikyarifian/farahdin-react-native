@@ -34,7 +34,6 @@ export default function primbon(props:any) {
     const [viewResult, setViewResult] = useState(false);
     const [date, setDate] = useState(new Date());
     const [showPicker, setShowPicker] = useState(true);
-    const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
         name: props.user?.fullname || '',

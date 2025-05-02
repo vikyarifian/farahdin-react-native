@@ -92,18 +92,13 @@ export default function tarot(props:any) {
 
     const generate = async () => {
         let $;
-        let body;
         let htmlString;
         let translateContent;
-        let content
+        let content;
+        let url;
+        let split = ['. ','. ']
         setLoading(true);
         try {
-            let $;
-            let htmlString;
-            let translateContent;
-            let content
-            let url;
-            let split = ['. ','. ']
             const formData = new FormData();
             formData.append('CardNumber_1_numericalint', viewSelectedCard.toString());
 
