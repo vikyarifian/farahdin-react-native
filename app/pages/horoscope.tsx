@@ -72,7 +72,7 @@ export default function horoscope(props:any) {
     const handleChange = (key: keyof typeof data, value: any) => {
         setData({
             ...data,
-            [key]: value ? value : data[key]
+            [key]: value
         });
     }
     
@@ -305,7 +305,7 @@ export default function horoscope(props:any) {
                         </View>
                     </TouchableOpacity>
                     
-                    <Result visible={viewResult} onRequestClose={() => setViewResult(false)} title={(props.lang === 'ID' ? 'Horoskop':'Horoscope') } 
+                    <Result visible={viewResult} lang={props.lang} onRequestClose={() => setViewResult(false)} title={(props.lang === 'ID' ? 'Horoskop':'Horoscope') } 
                         subTitle={(topics.filter(a => a.key === topic)[0]?.[(props.lang==='ID'?'topicID':'topicEN')] || '')+' - '+data.zodiac+(topic==6?' & '+data.partnerZodiac:'')}>
                         {result.map((a, i) => (
                             <Text key={i} style={[styles.resultText, { textAlign: 'justify' }]}>{(a.trimStart().trimEnd()!=='.'?a.trimStart():'')}</Text>

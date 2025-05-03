@@ -32,7 +32,7 @@ export default function inbox() {
       <View style={styles.contentContainer}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons name='arrow-back' size={22} color={COLORS.primary}/>
+            <Ionicons name='arrow-back' size={24} color={COLORS.primary}/>
           </TouchableOpacity>
           <Text style={styles.headerTitle}>{lang === 'ID' ? 'Pesan':'Inbox'}</Text>
           <View style={{ width: 28 }} />

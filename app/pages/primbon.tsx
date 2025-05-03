@@ -48,7 +48,7 @@ export default function primbon(props:any) {
 
         setData({
             ...data,
-            [key]: value ? value : data[key]
+            [key]: value
         });
     }
 
@@ -472,7 +472,7 @@ export default function primbon(props:any) {
                         </View>
                     </TouchableOpacity>
                     
-                    <Result visible={viewResult} onRequestClose={() => setViewResult(false)} title={'Primbon'} 
+                    <Result visible={viewResult} lang={props.lang} onRequestClose={() => setViewResult(false)} title={'Primbon'} 
                         subTitle={topics.filter(a => a.key === topic)[0]?.[(props.lang==='ID'?'topicID':'topicEN')] || ''}>
                         {result.map((a, i) => (
                             <Text key={i} style={[styles.resultText, { textAlign: 'justify' }]}>{(a.trimStart().trimEnd()!=='.'?a.trimStart():'')}</Text>

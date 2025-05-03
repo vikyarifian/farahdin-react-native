@@ -13,6 +13,7 @@ interface ModalProps {
     customBackdrop?: ReactNode;
     title: string;
     subTitle: string;
+    lang: string;
   }
 
 const Result: React.FC<ModalProps> = ({
@@ -24,6 +25,7 @@ const Result: React.FC<ModalProps> = ({
     customBackdrop,
     title,
     subTitle,
+    lang,
   }) => {
   return (
     <Modal
@@ -36,7 +38,7 @@ const Result: React.FC<ModalProps> = ({
         <View style={[styles.contentContainer, {paddingTop: 40, paddingBottom:30, borderRadius: 10}]}>
             <View style={[styles.header, { backgroundColor: COLORS.background }]}>
             <TouchableOpacity onPress={onRequestClose}>
-                <Text style={[styles.subtitle, { fontSize: 16, height: 40, top: 5, fontWeight: 400, color: COLORS.primary }]}>Done</Text>
+                <Text style={[styles.subtitle, { fontSize: 16, height: 40, top: 5, fontWeight: 400, color: COLORS.primary }]}>{lang==='ID'?'Selesai':'Done'}</Text>
             </TouchableOpacity>
             <View style={{ width: 28 }} />
             </View>

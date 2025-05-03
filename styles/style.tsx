@@ -30,6 +30,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // paddingHorizontal: 16,
     // paddingVertical: 12,
+    height: 45,
+    top: 5,
     borderBottomWidth: 0.5,
     borderBottomColor: COLORS.surface,
   },
@@ -37,7 +39,8 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: COLORS.white,
-    minHeight: 30,
+    minHeight: 45,
+    top: 10,
   },
   contentDisabled: {
     opacity: 0.7,

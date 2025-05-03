@@ -123,7 +123,7 @@ export default function index() {
            )}
         </TouchableOpacity>
         <Modal visible={isVisible} transparent animationType='none' style={{backgroundColor: COLORS.background}}>
-          <TouchableOpacity style={{flex: 0, top: 80,
+          <TouchableOpacity style={{flex: 0, top: 100,
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: 'transparent',}} onPress={toggleDropdown} activeOpacity={1}
