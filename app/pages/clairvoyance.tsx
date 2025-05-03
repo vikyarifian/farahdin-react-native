@@ -40,7 +40,7 @@ export default function clairvoyance(props:any) {
     const handleChange = (key: keyof typeof data, value: any) => {
         setData({
             ...data,
-            [key]: value ? value : data[key]
+            [key]: value 
         });
     }
 
@@ -48,7 +48,7 @@ export default function clairvoyance(props:any) {
         let $;
         let htmlString;
         let translateContent;
-        let content;
+        let content: string = '';
         let url;
         let split = ['. ','. '];
         setLoading(true);
@@ -97,6 +97,13 @@ export default function clairvoyance(props:any) {
                     break;
                     
             }
+
+            const splits = ['Reignite passion','Change are coming','Get a Free']
+            splits.forEach((a,i)=> {
+                if (content.includes(a)) {
+                    content = content.split(a)[0]
+                }
+            })
             
             if (props.lang==='ID') {
                 translateContent = await translate(content,'en','id');
@@ -179,7 +186,7 @@ export default function clairvoyance(props:any) {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Result visible={viewResult} onRequestClose={() => setViewResult(false)} title={props.lang === 'ID' ? 'Kewaskitaan':'Clairvoyance'} 
+                <Result visible={viewResult} lang={props.lang} onRequestClose={() => setViewResult(false)} title={props.lang === 'ID' ? 'Kewaskitaan':'Clairvoyance'} 
                     subTitle={topics.filter(a => a.key === topic)[0]?.[(props.lang==='ID'?'topicID':'topicEN')] || ''}>
                     {result.map((a, i) => (
                         <Text key={i} style={[styles.resultText, { textAlign: 'justify' }]}>{(a.trimStart().trimEnd()!=='.'?a.trimStart():'')}</Text>

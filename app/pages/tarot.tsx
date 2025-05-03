@@ -225,7 +225,7 @@ export default function tarot(props:any) {
                             }
                         </View>
                     </TouchableOpacity>
-                    <Result visible={viewResult} onRequestClose={() => setViewResult(false)} title={'Tarot'} 
+                    <Result visible={viewResult} lang={props.lang} onRequestClose={() => setViewResult(false)} title={'Tarot'} 
                         subTitle={topics.filter(a => a.key === topic)[0]?.[(props.lang==='ID'?'topicID':'topicEN')] || ''}>
                         <View style={{padding:10,justifyContent:'flex-start'}}>
                             {
